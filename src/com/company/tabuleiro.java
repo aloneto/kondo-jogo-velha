@@ -3,8 +3,8 @@ package com.company;
 import java.util.Scanner;
 
 public class tabuleiro {
-    int win = 0;
-
+    int win1 = 0;
+    int win2 = 0;
     int tamanhoX = 3;
     int TamanhoY = 3;
 
@@ -43,7 +43,7 @@ public class tabuleiro {
     public void mostraJogo() {
         //String mtz[][]={{"*","*"},{"*","*"},{"*","*"}};
 
-
+        System.out.println("status do jogo atual");
         for (int l = 0; l < 3; l++) {
             for (int c = 0; c < 3; c++) {
                 System.out.print(mtz[l][c] + "    ");
@@ -55,7 +55,7 @@ public class tabuleiro {
 
     public void joga() {
 
-        while (0 == 0) {
+        while (win1 < 3 || win2 < 3) {
 
             Scanner jogada = new Scanner(System.in);  // Create a Scanner object
             System.out.println("digite a linha jogador " + jogador1);
@@ -63,28 +63,44 @@ public class tabuleiro {
             //todo verifica se slot vago
             System.out.println("digite a coluna jogador " + jogador1);
             String colunaJ1 = jogada.nextLine();
+            testaWin(Integer.parseInt(linhaJ1), Integer.parseInt(colunaJ1), "O");
 
-            testaWin(Integer.parseInt(linhaJ1), Integer.parseInt(colunaJ1));
+            //jogador 2
+
+            System.out.println("digite a linha jogador " + jogador2);
+            String linhaJ2 = jogada.nextLine();
+            //todo verifica se slot vago
+            System.out.println("digite a coluna jogador " + jogador2);
+            String colunaJ2 = jogada.nextLine();
+            testaWin(Integer.parseInt(linhaJ2), Integer.parseInt(colunaJ2), "X");
+
         }
     }
 
 
-    public int testaWin(int linhaJ1, int colunaJ1) {
+    public int testaWin(int linhaJ1, int colunaJ1, String jogador) {
 
-        mtz[linhaJ1][colunaJ1] = "O";
-
-
+        mtz[linhaJ1][colunaJ1] = jogador;
+        mostraJogo();
         for (int l = 0; l < 3; l++) {
 
 //todo fazer o mesmo para testar colunas
-            if (mtz[l][0] == "O") {
-                win = win + 1;
+            if (jogador == "O") {
+                if (mtz[l][0] == jogador) {
+                    win1 = win1 + 1;
+                }
+            } else {
+                if (mtz[l][0] == jogador) {
+                    win2 = win2 + 1;
+                }
             }
-            if (win == 3) {
-                System.out.println("vencedor");
-                boolean stat = true;
-            }
+        }
 
+        if (win1 == 3) {
+            System.out.println("vencedor jogador >>> O");
+        }
+        if (win2 == 3) {
+            System.out.println("vencedor jogador >>> X");
         }
 
         return 0;
